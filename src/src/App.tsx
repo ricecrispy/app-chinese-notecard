@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 
 interface ChineseData {
   traditional: string;
@@ -39,25 +39,59 @@ function App() {
     const pinyin = data.pinyin;
     const meaning = data.meaning;
     return <div>
-      <h2>{characters}</h2>
-      <h2>{pinyin}</h2>
-      <h2>{meaning}</h2>
+      <h2 className='text-4xl p-2'>{characters}</h2>
+      <h2 className='text-4xl p-2'>{pinyin}</h2>
+      <h2 className='text-xl p-2'>{meaning}</h2>
     </div>
   }
 
+  useEffect(() => {
+    handleButtonClick();
+  }, []);
+
   return (
     <>
-      <h1>Chinese Notecard</h1>
-      <div>
-          {data ? createNoteCard() : ''}
+      <div className="container-xs md:container-md lg:container-lg xl:container-xl">
+        <div>
+          <fieldset className="float-right fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
+            <legend className="fieldset-legend">Character Sets</legend>
+            <label className="label">
+              <input type="checkbox" defaultChecked className="toggle toggle-primary" onChange={handleToggleClick}/>
+              {isTraditional ? 'TRADITIONAL' : 'SIMPLIFIED'}
+            </label>
+          </fieldset>
         </div>
-      <div className="card">
-        <button onClick={handleButtonClick}>
-          Get Random Chinese Words
-        </button>
-        <button onClick={handleToggleClick}>
-          {isTraditional ? 'TRADITIONAL' : 'SIMPLIFIED'}
-        </button>  
+        <div className="hero bg-base-200 min-h-screen">
+          <div className="hero-content text-center">
+            <div className="max-w-md">
+              <h1 className="text-5xl font-bold">Chinese Notecard</h1>
+              <div className="divider"></div>
+              <div className='p-4'>
+                {data ? createNoteCard() : ''}
+              </div>
+              <div className="divider"></div>
+              <button className='btn btn-primary rounded-full' onClick={handleButtonClick}>
+                Get Random Chinese Words
+              </button>
+            </div>
+          </div>
+        </div>
+        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
+          <nav>
+            <h6 className="footer-title">Resources</h6>
+            <a className='link link-hover' href='https://www.mdbg.net/chinese/dictionary?page=cedict' target='_blank'>Chinese Dictionary Data</a>
+            <a className="link link-hover" href='https://yoyochinese.com/chinese-learning-tools/Mandarin-Chinese-pronunciation-lesson/pinyin-chart-table' target='_blank'>Interactive Pinyin Chart</a>
+          </nav>
+          <aside>
+            <p>
+              Chinese Notecard
+              <br />
+              Practice Chinese Pronunciation
+              <br />
+              Do It Now
+            </p>
+          </aside>
+        </footer>
       </div>
     </>
   )
