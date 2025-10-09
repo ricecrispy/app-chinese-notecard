@@ -103,9 +103,15 @@ function App() {
 
   useEffect(() => {
     handleButtonClick();
+
     const loadVoices = () => setVoices(window.speechSynthesis.getVoices());
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    const warmUp = new SpeechSynthesisUtterance("一");
+    warmUp.lang = "zh-CN";
+    warmUp.volume = 0; // silent
+    speechSynthesis.speak(warmUp);
   }, []);
 
   return (
