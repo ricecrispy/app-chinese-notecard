@@ -15,6 +15,42 @@ function App() {
   const [isTraditional, setIsTraditional] = useState(true);
   const [isCopyButtonClicked, setIsCopyButtonClicked] = useState(false);
   const [isCollapsedOpen, setIsCollapseOpen] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  function pronounceWord(word: string) {
+    if (!("speechSynthesis" in window)) {
+      alert("Sorry, your browser does not support speech synthesis.");
+      return;
+    }
+
+    // Stop any existing speech before starting new one
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.rate = 0.6; // Slightly slower for clarity
+    utterance.pitch = 1;
+
+    setIsSpeaking(true);
+
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = (e) => {
+      console.error("Speech synthesis error:", e);
+      setIsSpeaking(false);
+    };
+
+    const preferredLangs = ["zh-CN", "zh-SG", "zh-TW"];
+    const voice =
+      voices.find(v => preferredLangs.includes(v.lang)) ??
+      voices.find(v => v.lang.startsWith("zh")) ??
+      voices[0];
+
+    utterance.voice = voice;
+    utterance.lang = voice?.lang || "zh-CN";
+
+    console.log("Speaking:", word, "Voice:", voice?.name || "default");
+    window.speechSynthesis.speak(utterance);
+  }
 
   function handleButtonClick() {
     const request = new XMLHttpRequest();
@@ -54,7 +90,11 @@ function App() {
       <div className="collapse-content text-left text-sm">
         <h2 className='text-4xl p-2'>{pinyin}</h2>
         <h2 className='text-xl p-2'>{meaning}</h2>
-        <button className='btn btn-secondary rounded-full' onClick={() => handleCopyButtonClick(characters)}>
+        <div className="divider"></div>
+        <button className={`btn btn-info rounded-full ${isSpeaking ? "loading" : ""}`} onClick={() => pronounceWord(characters)} disabled={isSpeaking}>
+          {isSpeaking ? "Playing..." : "🔊 Play Sound"}
+        </button>
+        <button className='btn btn-secondary rounded-full float-right' onClick={() => handleCopyButtonClick(characters)}>
           {isCopyButtonClicked ? "Copied! ✅" : `Copy ${characters} to clipboard`}
         </button>
       </div>
@@ -63,6 +103,9 @@ function App() {
 
   useEffect(() => {
     handleButtonClick();
+    const loadVoices = () => setVoices(window.speechSynthesis.getVoices());
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
   return (
