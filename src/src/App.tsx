@@ -53,6 +53,8 @@ function App() {
       if (request.status === 200) {
         const chineseObject: ChineseData = JSON.parse(request.responseText);
         setData(chineseObject);
+      } else {
+        alert(`${request.status}`);
       }
     };
     request.send();
