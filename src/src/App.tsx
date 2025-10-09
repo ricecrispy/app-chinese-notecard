@@ -136,7 +136,7 @@ function App() {
 
       <div className="toast">
         <div className="alert alert-info">
-          <a className='link link-hover' href='https://github.com/ricecrispy'>My GitHub</a>
+          As of 2025-10-9, Mandarin Web Speech API is not supported in Firefox
         </div>
       </div>
 
