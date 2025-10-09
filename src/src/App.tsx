@@ -14,6 +14,7 @@ function App() {
   const [data, setData] = useState<ChineseData>();
   const [isTraditional, setIsTraditional] = useState(true);
   const [isCopyButtonClicked, setIsCopyButtonClicked] = useState(false);
+  const [isCollapsedOpen, setIsCollapseOpen] = useState(false);
 
   function handleButtonClick() {
     const request = new XMLHttpRequest();
@@ -26,6 +27,7 @@ function App() {
     };
     request.send();
     setIsCopyButtonClicked(false);
+    setIsCollapseOpen(false);
   }
 
   function handleToggleClick() {
@@ -47,7 +49,7 @@ function App() {
     const meaning = data.meaning;
 
     return <div className="collapse collapse-arrow bg-base-100 border-base-300 border">
-      <input type='checkbox' />
+      <input type='checkbox' checked={isCollapsedOpen} onChange={() => setIsCollapseOpen(!isCollapsedOpen)} />
       <div className="collapse-title text-left text-4xl font-semibold after:start-5 after:end-auto pe-4 ps-12">{characters}</div>
       <div className="collapse-content text-left text-sm">
         <h2 className='text-4xl p-2'>{pinyin}</h2>
