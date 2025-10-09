@@ -148,7 +148,7 @@ function App() {
 
       <div className="toast">
         <div className="alert alert-info">
-          As of 2025-10-9, Mandarin Web Speech API is not supported in Firefox
+          Mandarin Web Speech API is not supported by Firefox as of 2025-10-9
         </div>
       </div>
 
