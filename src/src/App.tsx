@@ -16,7 +16,7 @@ function App() {
   const [isCopyButtonClicked, setIsCopyButtonClicked] = useState(false);
   const [isCollapsedOpen, setIsCollapseOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
 
   function pronounceWord(word: string) {
     if (!("speechSynthesis" in window)) {
@@ -38,12 +38,6 @@ function App() {
       console.error("Speech synthesis error:", e);
       setIsSpeaking(false);
     };
-
-    const preferredLangs = ["zh-CN", "zh-SG", "zh-TW"];
-    const voice =
-      voices.find(v => preferredLangs.includes(v.lang)) ??
-      voices.find(v => v.lang.startsWith("zh")) ??
-      voices[0];
 
     utterance.voice = voice;
     utterance.lang = voice?.lang || "zh-CN";
@@ -104,7 +98,19 @@ function App() {
   useEffect(() => {
     handleButtonClick();
 
-    const loadVoices = () => setVoices(window.speechSynthesis.getVoices());
+    const loadVoices = () => {
+      const all = window.speechSynthesis.getVoices();
+      if (all.length > 0) {
+        // Try Mandarin voices first, fallback to any zh-* voice
+        const zhVoice =
+          all.find(v => v.lang === "zh-CN") ||
+          all.find(v => v.lang.startsWith("zh")) ||
+          null;
+        if (zhVoice) {
+          setVoice(zhVoice);
+        }
+      }
+    }
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
 
