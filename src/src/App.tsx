@@ -8,7 +8,7 @@ interface ChineseData {
   meaning: string;
 }
 
-const SERVICE_BASEPATH = "http://127.0.0.1:8000";
+const SERVICE_BASEPATH = "https://svc-chinese-dictionary.onrender.com";
 
 function App() {
   const [data, setData] = useState<ChineseData>();
