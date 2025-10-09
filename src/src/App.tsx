@@ -150,6 +150,9 @@ function App() {
 
       <div className="toast">
         <div className="alert alert-info">
+          The application is hosted on free tier Render and Vercel so please excuse the long loading time 🥲
+        </div>
+        <div className="alert alert-warning">
           Mandarin Web Speech API is not supported by Firefox as of 2025-10-9
         </div>
       </div>
