@@ -134,7 +134,7 @@ function App() {
         </fieldset>
       </div>
 
-      <div className="hero bg-base-200 min-h-screen">
+      <div className="glass hero bg-base-200 min-h-screen">
         <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Chinese Notecard</h1>
@@ -148,14 +148,14 @@ function App() {
         </div>
       </div>
 
-      <div className="toast">
+      {/* <div className="toast">
         <div className="alert alert-info">
           The application is hosted on free tier Render and Vercel so please excuse the long loading time 🥲
         </div>
         <div className="alert alert-warning">
           Mandarin Web Speech API is not supported by Firefox as of 2025-10-9
         </div>
-      </div>
+      </div> */}
 
       <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
         <nav>
@@ -170,6 +170,9 @@ function App() {
             Practice Chinese Pronunciation
             <br />
             Do It Now 👵
+            <br />
+            <br />
+            <a href='https://ko-fi.com/P5P61MMVZ6' target='_blank'><img height='36' style={{ border:'0px', height:'36px' }} src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' alt='Buy Me a Coffee at ko-fi.com' /></a>
           </p>
         </aside>
       </footer>
