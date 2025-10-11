@@ -17,6 +17,7 @@ function App() {
   const [isCollapsedOpen, setIsCollapseOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [isToastVisible, setToastVisibility] = useState(true);
 
   function pronounceWord(word: string) {
     if (!("speechSynthesis" in window)) {
@@ -148,11 +149,11 @@ function App() {
         </div>
       </div>
 
-      <div className="toast">
+      { isToastVisible && <div className="toast">
         <div className="alert alert-warning">
-          Mandarin Web Speech API is not supported by Firefox as of 2025-10-9
+          Mandarin Web Speech API is not supported by Firefox as of 2025-10-9 <button className='btn btn-outline btn-secondary' onClick={() => setToastVisibility(false)}>X</button>
         </div>
-      </div>
+      </div> }
 
       <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
         <nav>
